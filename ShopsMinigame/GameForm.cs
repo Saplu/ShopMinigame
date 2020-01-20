@@ -40,5 +40,10 @@ namespace ShopsMinigame
         {
             game.Save();
         }
+
+        private void LoadButton_Click(object sender, EventArgs e)
+        {
+            game.Load(1);
+        }
     }
 }

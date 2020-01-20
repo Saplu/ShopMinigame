@@ -8,7 +8,7 @@ namespace Game
 {
     public class Shop : IShop
     {
-        private int _upgradeLevel, _incomePerMinute, _costToUpgrade, _costToRenovate, _millisecondsUntilReady, _id;
+        private int _upgradeLevel, _incomePerMinute, _costToUpgrade, _costToRenovate, _millisecondsUntilReady, _id, _gameId;
         private string _name;
         private ShopLevel _baseLevel;
         private bool _beingRenovated;
@@ -23,7 +23,7 @@ namespace Game
         public int MillisecondsUntilReady { get => _millisecondsUntilReady; set => _millisecondsUntilReady = value; }
         public int Id { get => _id; set => _id = value; }
 
-        public Shop(string name, int id)
+        public Shop(string name, int id, int gameId)
         {
             _baseLevel = 0;
             _name = name;
@@ -33,6 +33,7 @@ namespace Game
             _costToRenovate = 600;
             _beingRenovated = false;
             _id = id;
+            _gameId = gameId;
         }
 
         public virtual void Renovate()

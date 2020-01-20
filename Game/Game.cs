@@ -25,7 +25,8 @@ namespace Game
 
         public void AddShop()
         {
-            Shops.Add(new Shop("TestShop", 1));
+            var newid = Shops.Count + 1;
+            Shops.Add(new Shop("TestShop", newid, ID));
             CalculateMoneyPerSecond();
         }
 
@@ -43,7 +44,12 @@ namespace Game
             var dtlShops = new List<DTL.DTLShop>();
             Shops.ForEach(s => dtlShops.Add(ConvertToDTLShop(s)));
             DAL.DAL dal = new DAL.DAL();
+        }
 
+        public void Load(int gameid)
+        {
+            var dal = new DAL.DAL();
+            var dtlShops = dal.Read(gameid);
         }
 
         private void CalculateMoneyPerSecond()
