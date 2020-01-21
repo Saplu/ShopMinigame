@@ -54,7 +54,8 @@ namespace DAL
                     renovatecost, msuntilready, name, renovated);
                 list.Add(shop);
             }
-
+            _command.Dispose();
+            _cnn.Close();
 
             return list;
         }
