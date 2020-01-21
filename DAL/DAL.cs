@@ -33,7 +33,8 @@ namespace DAL
         {
             _cnn.Open();
             var list = new List<DTL.DTLShop>();
-            _command.CommandText = "SELECT * FROM Shops s WHERE s.Gameid = '" + gameid +"'";
+            _command.CommandText = "SELECT * FROM Shops s " +
+                                   "WHERE s.Gameid = '" + gameid +"'";
             _reader = _command.ExecuteReader();
 
             while(_reader.Read())

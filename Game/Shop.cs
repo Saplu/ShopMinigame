@@ -36,6 +36,22 @@ namespace Game
             _gameId = gameId;
         }
 
+        public Shop(string name, int id, int gameId, int baselvl, int upgradelvl, int income, int costToUpgrade,
+            int costToRenovate, int renovated, int milliseconds)
+        {
+            _name = name;
+            _id = id;
+            _gameId = gameId;
+            _baseLevel = (ShopLevel)baselvl;
+            _upgradeLevel = upgradelvl;
+            _incomePerMinute = income;
+            _costToUpgrade = costToUpgrade;
+            _costToRenovate = costToRenovate;
+            if (renovated == 1)
+                _beingRenovated = true;
+            _millisecondsUntilReady = milliseconds;
+        }
+
         public virtual void Renovate()
         {
             if (_baseLevel != ShopLevel.MegaMarket)
