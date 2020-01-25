@@ -43,17 +43,20 @@ namespace Game
         {
             var dtlShops = new List<DTL.DTLShop>();
             Shops.ForEach(s => dtlShops.Add(ConvertToDTLShop(s)));
+
             DAL.DAL dal = new DAL.DAL();
         }
 
         public void Load(int gameid)
         {
             var dal = new DAL.DAL();
-            var dtlShops = dal.Read(gameid);
-            foreach (var shop in dtlShops)
-            {
-                Shops.Add(ConvertToShop(shop));
-            }
+            var dtlGame = dal.Read(gameid);
+            ConvertDTLToGame(dtlGame);
+            //var dtlShops = dal.Read(gameid);
+            //foreach (var shop in dtlShops)
+            //{
+            //    Shops.Add(ConvertToShop(shop));
+            //}
         }
 
         private void CalculateMoneyPerSecond()
@@ -93,6 +96,11 @@ namespace Game
             var shop = new Shop(dtl.Name, dtl.Id, dtl.GameId, dtl.BaseLevel, dtl.UpgradeLevel, dtl.IncomePerMinute,
                 dtl.CostToUpgrade, dtl.CostToRenovate, dtl.BeingRenovated, dtl.MillisecondsUntilReady);
             return shop;
+        }
+
+        private void ConvertDTLToGame(DTL.DTLGame dtlGame)
+        {
+
         }
     }
 }

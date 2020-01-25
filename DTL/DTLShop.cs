@@ -30,6 +30,7 @@ namespace DTL
             CostToRenovate = renovatecost;
             MillisecondsUntilReady = milliseconds;
             Id = id;
+            GameId = gameId;
             if (renovated)
                 BeingRenovated = 1;
             else BeingRenovated = 0;

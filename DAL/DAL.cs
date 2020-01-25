@@ -29,26 +29,33 @@ namespace DAL
 
         }
 
-        public List<DTL.DTLShop> Read(int gameid)
+        public DTL.DTLGame Read(int gameid)
         {
             _cnn.Open();
             var list = new List<DTL.DTLShop>();
-            _command.CommandText = "SELECT * FROM Shops s " +
-                                   "WHERE s.Gameid = '" + gameid +"'";
+            var game = new DTL.DTLGame();
+            _command.CommandText = "SELECT g.Id, g.Timesaved, g.Money, s.id, s.Upgradelvl, s.Income, s.Upgradecost," +
+                                   "s.Renovatecost, s.Millisecondsuntilready, s.Name, s.Baselvl, s.Beingrenovated" +
+                                   " FROM Games g, Shops s " +
+                                   "WHERE s.Gameid = '" + gameid +"'" +
+                                   " AND g.Id = '" + gameid +"'";
             _reader = _command.ExecuteReader();
 
             while(_reader.Read())
             {
-                var shopid = _reader.GetInt32(0);
-                var upgradelvl = _reader.GetInt32(2);
-                var income = _reader.GetInt32(3);
-                var upgradecost = _reader.GetInt32(4);
-                var renovatecost = _reader.GetInt32(5);
-                var msuntilready = _reader.GetInt32(6);
-                var name = _reader.GetString(7);
-                var baselvl = _reader.GetInt32(8);
+                game.Id = _reader.GetInt32(0);
+                game.LastUpdated = _reader.GetDateTime(1);
+                game.Money = _reader.GetInt32(2);
+                var shopid = _reader.GetInt32(3);
+                var upgradelvl = _reader.GetInt32(4);
+                var income = _reader.GetInt32(5);
+                var upgradecost = _reader.GetInt32(6);
+                var renovatecost = _reader.GetInt32(7);
+                var msuntilready = _reader.GetInt32(8);
+                var name = _reader.GetString(9);
+                var baselvl = _reader.GetInt32(10);
                 var renovated = false;
-                if (_reader.GetInt32(9) == 1)
+                if (_reader.GetInt32(11) == 1)
                     renovated = true;
                 var shop = new DTL.DTLShop(shopid, gameid, upgradelvl, baselvl, income, upgradecost,
                     renovatecost, msuntilready, name, renovated);
@@ -57,7 +64,8 @@ namespace DAL
             _command.Dispose();
             _cnn.Close();
 
-            return list;
+            game.DTLShops = list;
+            return game;
         }
     }
 }
