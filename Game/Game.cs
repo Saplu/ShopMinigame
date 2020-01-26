@@ -52,11 +52,7 @@ namespace Game
             var dal = new DAL.DAL();
             var dtlGame = dal.Read(gameid);
             ConvertDTLToGame(dtlGame);
-            //var dtlShops = dal.Read(gameid);
-            //foreach (var shop in dtlShops)
-            //{
-            //    Shops.Add(ConvertToShop(shop));
-            //}
+            CalculateMoney();
         }
 
         private void CalculateMoneyPerSecond()
@@ -78,6 +74,7 @@ namespace Game
                     if (shop.MillisecondsUntilReady <= 0)
                     {
                         shop.BeingRenovated = false;
+                        shop.MillisecondsUntilReady = 0;
                         CalculateMoneyPerSecond();
                     }
                 }
@@ -100,7 +97,27 @@ namespace Game
 
         private void ConvertDTLToGame(DTL.DTLGame dtlGame)
         {
+            this.ID = dtlGame.Id;
+            this.LastUpdated = dtlGame.LastUpdated;
+            this.Money = dtlGame.Money;
+            this.Shops = new List<Shop>();
+            dtlGame.DTLShops.ForEach(s => Shops.Add(ConvertToShop(s)));
+        }
 
+        private void CalculateMoney()
+        {
+            var timePassed = (DateTime.Now - LastUpdated).TotalMilliseconds;
+            Shops.ForEach(s => SingleShopCalculation(timePassed, s));
+            CalculateMoneyPerSecond();
+        }
+
+        private void SingleShopCalculation(double milliseconds, Shop shop)
+        {
+            var time = -1 * (shop.MillisecondsUntilReady - milliseconds);
+            var value = time / 60000 * shop.IncomePerMinute;
+            shop.MillisecondsUntilReady = Math.Max(0, Convert.ToInt32(shop.MillisecondsUntilReady - milliseconds));
+            if (value > 0)
+                Money += value;
         }
     }
 }
