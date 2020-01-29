@@ -10,17 +10,15 @@ namespace Game
     {
         private double _money;
         private double _moneyPerSecond;
-        public DateTime LastUpdated { get; set; }
+        public DateTime LastUpdated { get; set; } = DateTime.Now;
         public int ID { get; set; }
         public double Money { get => Convert.ToInt32(_money); set => _money = value; }
-        public List<Shop> Shops { get; set; }
+        public List<Shop> Shops { get; set; } = new List<Shop>();
 
         public Game()
         {
             Money = 0;
             ID = 1;
-            Shops = new List<Shop>();
-            LastUpdated = DateTime.Now;
         }
 
         public void AddShop()
@@ -81,19 +79,13 @@ namespace Game
             }
         }
 
-        private DTL.DTLShop ConvertToDTLShop(Shop shop)
-        {
-            var dtlShop = new DTL.DTLShop(shop.Id, ID, shop.UpgradeLevel, Convert.ToInt32(shop.BaseLevel), shop.IncomePerMinute,
+        private DTL.DTLShop ConvertToDTLShop(Shop shop) =>
+            new DTL.DTLShop(shop.Id, ID, shop.UpgradeLevel, Convert.ToInt32(shop.BaseLevel), shop.IncomePerMinute,
                 shop.CostToUpgrade, shop.CostToRenovate, shop.MillisecondsUntilReady, shop.Name, shop.BeingRenovated);
-            return dtlShop;
-        }
 
-        private Shop ConvertToShop(DTL.DTLShop dtl)
-        {
-            var shop = new Shop(dtl.Name, dtl.Id, dtl.GameId, dtl.BaseLevel, dtl.UpgradeLevel, dtl.IncomePerMinute,
+        private Shop ConvertToShop(DTL.DTLShop dtl) =>
+            new Shop(dtl.Name, dtl.Id, dtl.GameId, dtl.BaseLevel, dtl.UpgradeLevel, dtl.IncomePerMinute,
                 dtl.CostToUpgrade, dtl.CostToRenovate, dtl.BeingRenovated, dtl.MillisecondsUntilReady);
-            return shop;
-        }
 
         private void ConvertDTLToGame(DTL.DTLGame dtlGame)
         {
