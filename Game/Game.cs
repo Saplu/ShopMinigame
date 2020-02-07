@@ -39,10 +39,9 @@ namespace Game
 
         public void Save()
         {
-            var dtlShops = new List<DTL.DTLShop>();
-            Shops.ForEach(s => dtlShops.Add(ConvertToDTLShop(s)));
-
+            var dtlGame = ConvertToDTLGame();
             DAL.DAL dal = new DAL.DAL();
+            dal.Save(dtlGame);
         }
 
         public void Load(int gameid)
@@ -94,6 +93,17 @@ namespace Game
             this.Money = dtlGame.Money;
             this.Shops = new List<Shop>();
             dtlGame.DTLShops.ForEach(s => Shops.Add(ConvertToShop(s)));
+        }
+
+        private DTL.DTLGame ConvertToDTLGame()
+        {
+            //var dtlGame = new DTL.DTLGame();
+            //dtlGame.Id = this.ID;
+            //dtlGame.Money = Convert.ToInt32(this.Money);
+            //dtlGame.LastUpdated = this.LastUpdated;
+            var dtlShopList = new List<DTL.DTLShop>();
+            Shops.ForEach(s => dtlShopList.Add(ConvertToDTLShop(s)));
+            return new DTL.DTLGame(this.ID, Convert.ToInt32(this.Money), this.LastUpdated, dtlShopList);
         }
 
         private void CalculateMoney()

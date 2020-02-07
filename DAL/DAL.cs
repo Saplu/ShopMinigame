@@ -24,9 +24,16 @@ namespace DAL
             _adapter = new SqlDataAdapter();
         }
 
-        public void Save(List<DTL.DTLShop> shops, int gameid)
+        public void Save(DTL.DTLGame game)
         {
-
+            _cnn.Open();
+            _command.CommandText = "IF EXISTS (SELECT * FROM Games WHERE Id = '" + game.Id + "')" + 
+                                   "UPDATE Games SET Timesaved = (SELECT GETDATE())" +
+                                   ", Money = '" + game.Money + "' WHERE Id = '" + game.Id + "'";
+            _adapter.UpdateCommand = _command;
+            int success = _adapter.UpdateCommand.ExecuteNonQuery();
+            _command.Dispose();
+            _cnn.Close();
         }
 
         public DTL.DTLGame Read(int gameid)
