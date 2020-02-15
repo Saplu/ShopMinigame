@@ -29,7 +29,9 @@ namespace DAL
             _cnn.Open();
             _command.CommandText = "IF EXISTS (SELECT * FROM Games WHERE Id = '" + game.Id + "')" + 
                                    "UPDATE Games SET Timesaved = (SELECT GETDATE())" +
-                                   ", Money = '" + game.Money + "' WHERE Id = '" + game.Id + "'";
+                                   ", Money = '" + game.Money + "' WHERE Id = '" + game.Id + "'" +
+                                   "ELSE INSERT INTO Games (Id, Timesaved, Money) " +
+                                   "VALUES ('" + game.Id + "',(SELECT GETDATE()),'" + game.Money + "');";
             _adapter.UpdateCommand = _command;
             int success = _adapter.UpdateCommand.ExecuteNonQuery();
             _command.Dispose();
