@@ -35,6 +35,8 @@
             this.RefreshButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.LoadButton = new System.Windows.Forms.Button();
+            this.Shop1Label = new System.Windows.Forms.Label();
+            this.ExceptionLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Shop1Button
@@ -59,16 +61,17 @@
             // 
             this.EnhanceButton.Location = new System.Drawing.Point(520, 71);
             this.EnhanceButton.Name = "EnhanceButton";
-            this.EnhanceButton.Size = new System.Drawing.Size(75, 23);
+            this.EnhanceButton.Size = new System.Drawing.Size(120, 23);
             this.EnhanceButton.TabIndex = 2;
             this.EnhanceButton.Text = "Enhance";
             this.EnhanceButton.UseVisualStyleBackColor = true;
+            this.EnhanceButton.Click += new System.EventHandler(this.EnhanceButton_Click);
             // 
             // RenovateButton
             // 
             this.RenovateButton.Location = new System.Drawing.Point(520, 129);
             this.RenovateButton.Name = "RenovateButton";
-            this.RenovateButton.Size = new System.Drawing.Size(75, 23);
+            this.RenovateButton.Size = new System.Drawing.Size(120, 23);
             this.RenovateButton.TabIndex = 3;
             this.RenovateButton.Text = "Renovate";
             this.RenovateButton.UseVisualStyleBackColor = true;
@@ -77,7 +80,7 @@
             // 
             this.RefreshButton.Location = new System.Drawing.Point(520, 223);
             this.RefreshButton.Name = "RefreshButton";
-            this.RefreshButton.Size = new System.Drawing.Size(75, 23);
+            this.RefreshButton.Size = new System.Drawing.Size(120, 23);
             this.RefreshButton.TabIndex = 4;
             this.RefreshButton.Text = "Refresh";
             this.RefreshButton.UseVisualStyleBackColor = true;
@@ -87,7 +90,7 @@
             // 
             this.SaveButton.Location = new System.Drawing.Point(520, 314);
             this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(75, 23);
+            this.SaveButton.Size = new System.Drawing.Size(120, 23);
             this.SaveButton.TabIndex = 5;
             this.SaveButton.Text = "Save";
             this.SaveButton.UseVisualStyleBackColor = true;
@@ -97,17 +100,36 @@
             // 
             this.LoadButton.Location = new System.Drawing.Point(520, 367);
             this.LoadButton.Name = "LoadButton";
-            this.LoadButton.Size = new System.Drawing.Size(75, 23);
+            this.LoadButton.Size = new System.Drawing.Size(120, 23);
             this.LoadButton.TabIndex = 6;
             this.LoadButton.Text = "Load Game";
             this.LoadButton.UseVisualStyleBackColor = true;
             this.LoadButton.Click += new System.EventHandler(this.LoadButton_Click);
+            // 
+            // Shop1Label
+            // 
+            this.Shop1Label.AutoSize = true;
+            this.Shop1Label.Location = new System.Drawing.Point(113, 110);
+            this.Shop1Label.Name = "Shop1Label";
+            this.Shop1Label.Size = new System.Drawing.Size(0, 13);
+            this.Shop1Label.TabIndex = 7;
+            this.Shop1Label.Visible = false;
+            // 
+            // ExceptionLabel
+            // 
+            this.ExceptionLabel.AutoSize = true;
+            this.ExceptionLabel.Location = new System.Drawing.Point(113, 432);
+            this.ExceptionLabel.Name = "ExceptionLabel";
+            this.ExceptionLabel.Size = new System.Drawing.Size(0, 13);
+            this.ExceptionLabel.TabIndex = 8;
             // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.ExceptionLabel);
+            this.Controls.Add(this.Shop1Label);
             this.Controls.Add(this.LoadButton);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.RefreshButton);
@@ -131,6 +153,8 @@
         private System.Windows.Forms.Button RefreshButton;
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.Button LoadButton;
+        private System.Windows.Forms.Label Shop1Label;
+        private System.Windows.Forms.Label ExceptionLabel;
     }
 }
 

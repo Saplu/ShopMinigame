@@ -12,12 +12,13 @@ namespace Game
         private double _moneyPerSecond;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
         public int ID { get; set; }
+        public int SelectedShop { get; set; } = 0;
         public double Money { get => Convert.ToInt32(_money); set => _money = value; }
         public List<Shop> Shops { get; set; } = new List<Shop>();
 
         public Game()
         {
-            Money = 0;
+            Money = 600;
             ID = 1;
         }
 
@@ -50,6 +51,15 @@ namespace Game
             var dtlGame = dal.Read(gameid);
             ConvertDTLToGame(dtlGame);
             CalculateMoney();
+        }
+
+        public void EnhanceShop()
+        {
+            if (_money >= Shops[SelectedShop].CostToUpgrade)
+            {
+                _money -= Shops[SelectedShop].CostToUpgrade;
+                Shops[SelectedShop].Enhance();
+            }
         }
 
         private void CalculateMoneyPerSecond()
@@ -97,10 +107,6 @@ namespace Game
 
         private DTL.DTLGame ConvertToDTLGame()
         {
-            //var dtlGame = new DTL.DTLGame();
-            //dtlGame.Id = this.ID;
-            //dtlGame.Money = Convert.ToInt32(this.Money);
-            //dtlGame.LastUpdated = this.LastUpdated;
             var dtlShopList = new List<DTL.DTLShop>();
             Shops.ForEach(s => dtlShopList.Add(ConvertToDTLShop(s)));
             return new DTL.DTLGame(this.ID, Convert.ToInt32(this.Money), this.LastUpdated, dtlShopList);

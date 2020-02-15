@@ -74,14 +74,20 @@ namespace Game
             {
                 switch(_baseLevel)
                 {
-                    case ShopLevel.Kiosk: _incomePerMinute += 4; break;
-                    case ShopLevel.Market: _incomePerMinute += 10; break;
-                    case ShopLevel.SuperMarket: _incomePerMinute += 22; break;
-                    case ShopLevel.MegaMarket: _incomePerMinute += 45; break;
+                    case ShopLevel.Kiosk: _incomePerMinute += 4; _upgradeLevel++; break;
+                    case ShopLevel.Market: _incomePerMinute += 10; _upgradeLevel++; break;
+                    case ShopLevel.SuperMarket: _incomePerMinute += 22; _upgradeLevel++; break;
+                    case ShopLevel.MegaMarket: _incomePerMinute += 45; _upgradeLevel++; break;
                     default: throw new Exception("This really should not be happening.");
                 }
             }
             else throw new Exception("This should not be possible anymore.");
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0}\nLevel {1}\nIncome: {2} per minute.",
+                _baseLevel.ToString(), _upgradeLevel, _incomePerMinute);
         }
 
         private void StartUpgrade(int minutes, ShopLevel goal)
