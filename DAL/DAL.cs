@@ -34,6 +34,8 @@ namespace DAL
                                    "VALUES ('" + game.Id + "',(SELECT GETDATE()),'" + game.Money + "');";
             _adapter.UpdateCommand = _command;
             int success = _adapter.UpdateCommand.ExecuteNonQuery();
+            _command.CommandText = AddShopsToSQLCommand(game.DTLShops);
+            _adapter.UpdateCommand.ExecuteNonQuery();
             _command.Dispose();
             _cnn.Close();
         }
@@ -75,6 +77,25 @@ namespace DAL
 
             game.DTLShops = list;
             return game;
+        }
+
+        private string AddShopsToSQLCommand(List<DTL.DTLShop> shops)
+        {
+            var sb = new StringBuilder();
+
+            foreach(var shop in shops)
+            {
+                sb.Append(String.Format("IF EXISTS (SELECT * FROM shops WHERE Id ='{0}')" +
+                    "UPDATE shops SET Upgradelvl ='{1}', Income = '{2}', Upgradecost = '{3}', " +
+                    "Renovatecost = '{4}', Millisecondsuntilready = '{5}', Baselvl = '{6}', Beingrenovated = '{7}'" +
+                    "ELSE INSERT INTO shops (Id, Gameid, Upgradelvl, Income, Upgradecost, Renovatecost, " +
+                    "Millisecondsuntilready, Name, Baselvl, Beingrenovated) " +
+                    "VALUES ({0}, {8}, {1}, {2}, {3}, {4}, {5}, '{9}', {6}, {7});",
+                    shop.Id, shop.UpgradeLevel, shop.IncomePerMinute, shop.CostToUpgrade, shop.CostToRenovate,
+                    shop.MillisecondsUntilReady, shop.BaseLevel, shop.BeingRenovated, shop.GameId, shop.Name));
+            }
+
+            return sb.ToString();
         }
     }
 }
