@@ -30,6 +30,8 @@ namespace ShopsMinigame
                 Shop1Label.Text = game.Shops[0].ToString();
                 Shop1Button.Text = game.Shops[0].Name;
                 Shop1Label.Visible = true;
+                Shop2Button.Visible = true;
+                Shop2Label.Text = 5000.ToString();
             }
             else
             {
@@ -41,8 +43,7 @@ namespace ShopsMinigame
         private void RefreshButton_Click(object sender, EventArgs e)
         {
             game.Update(DateTime.Now);
-            MoneyLabel.Text = "Money: " + game.Money.ToString();
-            ExceptionLabel.Text = "";
+            UpdateLabels();
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
@@ -53,6 +54,8 @@ namespace ShopsMinigame
         private void LoadButton_Click(object sender, EventArgs e)
         {
             game.Load(1);
+            LoadButtons();
+            UpdateLabels();
         }
 
         private void EnhanceButton_Click(object sender, EventArgs e)
@@ -88,7 +91,61 @@ namespace ShopsMinigame
 
         private void UpdateLabels()
         {
+            MoneyLabel.Text = "Money: " + game.Money.ToString();
+            ExceptionLabel.Text = "";
             Shop1Label.Text = game.Shops[0].ToString();
+            Shop1Label.Visible = true;
+            if (game.Shops.Count > 1)
+            {
+                Shop2Label.Text = game.Shops[1].ToString();
+                Shop2Label.Visible = true;
+            }
+            if (game.Shops.Count > 2)
+            {
+                Shop3Label.Text = game.Shops[2].ToString();
+                Shop3Label.Visible = true;
+            }
+            if (game.Shops.Count > 3)
+            {
+                Shop4Label.Text = game.Shops[3].ToString();
+                Shop4Label.Visible = true;
+            }
+        }
+
+        private void LoadButtons()
+        {
+            Shop1Button.Text = game.Shops[0].Name;
+            Shop1Label.Text = game.Shops[0].ToString();
+            if (game.Shops.Count > 1)
+            {
+                Shop2Button.Text = game.Shops[1].Name;
+                Shop2Label.Text = game.Shops[1].ToString();
+            }
+            if (game.Shops.Count > 2)
+            {
+                Shop3Button.Text = game.Shops[2].Name;
+                Shop3Label.Text = game.Shops[2].ToString();
+            }
+            if (game.Shops.Count > 3)
+            {
+                Shop4Button.Text = game.Shops[3].Name;
+                Shop4Label.Text = game.Shops[4].ToString();
+            }
+
+        }
+
+        private void RenovateButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                game.UpgradeShop();
+                UpdateLabels();
+                RefreshButton_Click(sender, e);
+            }
+            catch(Exception ex)
+            {
+                ExceptionLabel.Text = ex.Message;
+            }
         }
     }
 }

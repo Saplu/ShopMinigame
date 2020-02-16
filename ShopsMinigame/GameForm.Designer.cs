@@ -37,6 +37,12 @@
             this.LoadButton = new System.Windows.Forms.Button();
             this.Shop1Label = new System.Windows.Forms.Label();
             this.ExceptionLabel = new System.Windows.Forms.Label();
+            this.Shop2Button = new System.Windows.Forms.Button();
+            this.Shop3Button = new System.Windows.Forms.Button();
+            this.Shop4Button = new System.Windows.Forms.Button();
+            this.Shop3Label = new System.Windows.Forms.Label();
+            this.Shop2Label = new System.Windows.Forms.Label();
+            this.Shop4Label = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Shop1Button
@@ -75,6 +81,7 @@
             this.RenovateButton.TabIndex = 3;
             this.RenovateButton.Text = "Renovate";
             this.RenovateButton.UseVisualStyleBackColor = true;
+            this.RenovateButton.Click += new System.EventHandler(this.RenovateButton_Click);
             // 
             // RefreshButton
             // 
@@ -123,11 +130,71 @@
             this.ExceptionLabel.Size = new System.Drawing.Size(0, 13);
             this.ExceptionLabel.TabIndex = 8;
             // 
+            // Shop2Button
+            // 
+            this.Shop2Button.Location = new System.Drawing.Point(261, 70);
+            this.Shop2Button.Name = "Shop2Button";
+            this.Shop2Button.Size = new System.Drawing.Size(75, 23);
+            this.Shop2Button.TabIndex = 9;
+            this.Shop2Button.Text = "New Shop";
+            this.Shop2Button.UseVisualStyleBackColor = true;
+            this.Shop2Button.Visible = false;
+            // 
+            // Shop3Button
+            // 
+            this.Shop3Button.Location = new System.Drawing.Point(113, 208);
+            this.Shop3Button.Name = "Shop3Button";
+            this.Shop3Button.Size = new System.Drawing.Size(75, 23);
+            this.Shop3Button.TabIndex = 10;
+            this.Shop3Button.Text = "New Shop";
+            this.Shop3Button.UseVisualStyleBackColor = true;
+            this.Shop3Button.Visible = false;
+            // 
+            // Shop4Button
+            // 
+            this.Shop4Button.Location = new System.Drawing.Point(261, 208);
+            this.Shop4Button.Name = "Shop4Button";
+            this.Shop4Button.Size = new System.Drawing.Size(75, 23);
+            this.Shop4Button.TabIndex = 11;
+            this.Shop4Button.Text = "New Shop";
+            this.Shop4Button.UseVisualStyleBackColor = true;
+            this.Shop4Button.Visible = false;
+            // 
+            // Shop3Label
+            // 
+            this.Shop3Label.AutoSize = true;
+            this.Shop3Label.Location = new System.Drawing.Point(113, 238);
+            this.Shop3Label.Name = "Shop3Label";
+            this.Shop3Label.Size = new System.Drawing.Size(0, 13);
+            this.Shop3Label.TabIndex = 14;
+            // 
+            // Shop2Label
+            // 
+            this.Shop2Label.AutoSize = true;
+            this.Shop2Label.Location = new System.Drawing.Point(261, 109);
+            this.Shop2Label.Name = "Shop2Label";
+            this.Shop2Label.Size = new System.Drawing.Size(0, 13);
+            this.Shop2Label.TabIndex = 15;
+            // 
+            // Shop4Label
+            // 
+            this.Shop4Label.AutoSize = true;
+            this.Shop4Label.Location = new System.Drawing.Point(261, 238);
+            this.Shop4Label.Name = "Shop4Label";
+            this.Shop4Label.Size = new System.Drawing.Size(0, 13);
+            this.Shop4Label.TabIndex = 16;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.Shop4Label);
+            this.Controls.Add(this.Shop2Label);
+            this.Controls.Add(this.Shop3Label);
+            this.Controls.Add(this.Shop4Button);
+            this.Controls.Add(this.Shop3Button);
+            this.Controls.Add(this.Shop2Button);
             this.Controls.Add(this.ExceptionLabel);
             this.Controls.Add(this.Shop1Label);
             this.Controls.Add(this.LoadButton);
@@ -155,6 +222,12 @@
         private System.Windows.Forms.Button LoadButton;
         private System.Windows.Forms.Label Shop1Label;
         private System.Windows.Forms.Label ExceptionLabel;
+        private System.Windows.Forms.Button Shop2Button;
+        private System.Windows.Forms.Button Shop3Button;
+        private System.Windows.Forms.Button Shop4Button;
+        private System.Windows.Forms.Label Shop3Label;
+        private System.Windows.Forms.Label Shop2Label;
+        private System.Windows.Forms.Label Shop4Label;
     }
 }
 

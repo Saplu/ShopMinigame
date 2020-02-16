@@ -86,8 +86,11 @@ namespace Game
 
         public override string ToString()
         {
-            return String.Format("{0}\nLevel {1}\nIncome: {2} per minute.",
-                _baseLevel.ToString(), _upgradeLevel, _incomePerMinute);
+            if (_beingRenovated == false)
+                return String.Format("{0}\nLevel {1}\nIncome: {2} per minute.",
+                    _baseLevel.ToString(), _upgradeLevel, _incomePerMinute);
+            else return String.Format("{0}\nLevel {1}\nIncome: {2} per minute.\n{3} minutes until ready.",
+                    _baseLevel.ToString(), _upgradeLevel, _incomePerMinute, Convert.ToInt32(_millisecondsUntilReady / 60000));
         }
 
         private void StartUpgrade(int minutes, ShopLevel goal)

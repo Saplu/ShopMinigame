@@ -24,7 +24,7 @@ namespace Game
 
         public void AddShop()
         {
-            var newid = Shops.Count + 1;
+            var newid = GetNewId();
             Shops.Add(new Shop("TestShop", newid, ID));
             CalculateMoneyPerSecond();
         }
@@ -36,6 +36,7 @@ namespace Game
             _money += money;
             LastUpdated = time;
             CheckShopUpgradeTimes(timespan);
+            CalculateMoney();
         }
 
         public void Save()
@@ -51,6 +52,7 @@ namespace Game
             var dtlGame = dal.Read(gameid);
             ConvertDTLToGame(dtlGame);
             CalculateMoney();
+            SelectedShop = 0;
         }
 
         public void EnhanceShop()
@@ -59,7 +61,20 @@ namespace Game
             {
                 _money -= Shops[SelectedShop].CostToUpgrade;
                 Shops[SelectedShop].Enhance();
+                CalculateMoney();
             }
+            else throw new Exception("Not enough money.");
+        }
+
+        public void UpgradeShop()
+        {
+            if (_money >= Shops[SelectedShop].CostToRenovate)
+            {
+                _money -= Shops[SelectedShop].CostToRenovate;
+                Shops[SelectedShop].Renovate();
+                CalculateMoney();
+            }
+            else throw new Exception("Not enough money.");
         }
 
         private void CalculateMoneyPerSecond()
@@ -126,6 +141,12 @@ namespace Game
             shop.MillisecondsUntilReady = Math.Max(0, Convert.ToInt32(shop.MillisecondsUntilReady - milliseconds));
             if (value > 0)
                 Money += value;
+        }
+
+        private int GetNewId()
+        {
+            var dal = new DAL.DAL();
+            return dal.GetLastShopId() + 1;
         }
     }
 }

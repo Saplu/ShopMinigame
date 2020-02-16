@@ -79,6 +79,22 @@ namespace DAL
             return game;
         }
 
+        public int GetLastShopId()
+        {
+            var value = 1;
+            _cnn.Open();
+            _command.CommandText = "SELECT MAX(Id) FROM shops";
+            try
+            {
+                _reader = _command.ExecuteReader();
+                value = _reader.GetInt32(0);
+            }
+            catch (Exception) { }
+            _command.Dispose();
+            _cnn.Close();
+            return value;
+        }
+
         private string AddShopsToSQLCommand(List<DTL.DTLShop> shops)
         {
             var sb = new StringBuilder();
