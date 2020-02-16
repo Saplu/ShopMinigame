@@ -43,6 +43,7 @@
             this.Shop3Label = new System.Windows.Forms.Label();
             this.Shop2Label = new System.Windows.Forms.Label();
             this.Shop4Label = new System.Windows.Forms.Label();
+            this.InputTextbox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // Shop1Button
@@ -139,6 +140,7 @@
             this.Shop2Button.Text = "New Shop";
             this.Shop2Button.UseVisualStyleBackColor = true;
             this.Shop2Button.Visible = false;
+            this.Shop2Button.Click += new System.EventHandler(this.Shop2Button_Click);
             // 
             // Shop3Button
             // 
@@ -149,6 +151,7 @@
             this.Shop3Button.Text = "New Shop";
             this.Shop3Button.UseVisualStyleBackColor = true;
             this.Shop3Button.Visible = false;
+            this.Shop3Button.Click += new System.EventHandler(this.Shop3Button_Click);
             // 
             // Shop4Button
             // 
@@ -159,6 +162,7 @@
             this.Shop4Button.Text = "New Shop";
             this.Shop4Button.UseVisualStyleBackColor = true;
             this.Shop4Button.Visible = false;
+            this.Shop4Button.Click += new System.EventHandler(this.Shop4Button_Click);
             // 
             // Shop3Label
             // 
@@ -184,11 +188,19 @@
             this.Shop4Label.Size = new System.Drawing.Size(0, 13);
             this.Shop4Label.TabIndex = 16;
             // 
+            // InputTextbox
+            // 
+            this.InputTextbox.Location = new System.Drawing.Point(520, 407);
+            this.InputTextbox.Name = "InputTextbox";
+            this.InputTextbox.Size = new System.Drawing.Size(120, 20);
+            this.InputTextbox.TabIndex = 17;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.InputTextbox);
             this.Controls.Add(this.Shop4Label);
             this.Controls.Add(this.Shop2Label);
             this.Controls.Add(this.Shop3Label);
@@ -228,6 +240,7 @@
         private System.Windows.Forms.Label Shop3Label;
         private System.Windows.Forms.Label Shop2Label;
         private System.Windows.Forms.Label Shop4Label;
+        private System.Windows.Forms.TextBox InputTextbox;
     }
 }
 

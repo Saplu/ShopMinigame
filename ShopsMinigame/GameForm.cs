@@ -23,20 +23,29 @@ namespace ShopsMinigame
 
         private void Shop1Button_Click(object sender, EventArgs e)
         {
-            if (game.Shops.Count == 0)
+            try
             {
-                game.LastUpdated = DateTime.Now;
-                game.AddShop();
-                Shop1Label.Text = game.Shops[0].ToString();
-                Shop1Button.Text = game.Shops[0].Name;
-                Shop1Label.Visible = true;
-                Shop2Button.Visible = true;
-                Shop2Label.Text = 5000.ToString();
+                if (game.Shops.Count == 0)
+                {
+                    if (InputTextbox.TextLength == 0)
+                        throw new Exception("Shop must have a name!");
+                    game.LastUpdated = DateTime.Now;
+                    game.AddShop(InputTextbox.Text);
+                    Shop1Label.Text = game.Shops[0].ToString();
+                    Shop1Button.Text = game.Shops[0].Name;
+                    Shop1Label.Visible = true;
+                    Shop2Button.Visible = true;
+                    Shop2Label.Text = 5000.ToString();
+                }
+                else
+                {
+                    game.SelectedShop = 0;
+                    UpdateButtons();
+                }
             }
-            else
+            catch(Exception ex)
             {
-                game.SelectedShop = 0;
-                UpdateButtons();
+                ExceptionLabel.Text = ex.Message;
             }
         }
 
@@ -53,9 +62,18 @@ namespace ShopsMinigame
 
         private void LoadButton_Click(object sender, EventArgs e)
         {
-            game.Load(1);
-            LoadButtons();
-            UpdateLabels();
+            var id = InputTextbox.Text;
+            try
+            {
+                game.Load(Convert.ToInt32(InputTextbox.Text));
+                LoadButtons();
+                UpdateLabels();
+            }
+            catch (Exception)
+            {
+                ExceptionLabel.Text = "No game found.";
+            }
+            InputTextbox.Text = "";
         }
 
         private void EnhanceButton_Click(object sender, EventArgs e)
@@ -91,24 +109,34 @@ namespace ShopsMinigame
 
         private void UpdateLabels()
         {
-            MoneyLabel.Text = "Money: " + game.Money.ToString();
-            ExceptionLabel.Text = "";
-            Shop1Label.Text = game.Shops[0].ToString();
-            Shop1Label.Visible = true;
-            if (game.Shops.Count > 1)
+            try
             {
-                Shop2Label.Text = game.Shops[1].ToString();
+                MoneyLabel.Text = "Money: " + game.Money.ToString();
+                ExceptionLabel.Text = "";
+                Shop1Label.Text = game.Shops[0].ToString();
+                Shop1Label.Visible = true;
                 Shop2Label.Visible = true;
+                Shop2Label.Text = 5000.ToString();
+                if (game.Shops.Count > 1)
+                {
+                    Shop2Label.Text = game.Shops[1].ToString();
+                    Shop3Label.Visible = true;
+                    Shop3Label.Text = 10000.ToString();
+                }
+                if (game.Shops.Count > 2)
+                {
+                    Shop3Label.Text = game.Shops[2].ToString();
+                    Shop4Label.Visible = true;
+                    Shop4Label.Text = 20000.ToString();
+                }
+                if (game.Shops.Count > 3)
+                {
+                    Shop4Label.Text = game.Shops[3].ToString();
+                }
             }
-            if (game.Shops.Count > 2)
+            catch(Exception ex)
             {
-                Shop3Label.Text = game.Shops[2].ToString();
-                Shop3Label.Visible = true;
-            }
-            if (game.Shops.Count > 3)
-            {
-                Shop4Label.Text = game.Shops[3].ToString();
-                Shop4Label.Visible = true;
+                ExceptionLabel.Text = "Game not started.";
             }
         }
 
@@ -116,15 +144,18 @@ namespace ShopsMinigame
         {
             Shop1Button.Text = game.Shops[0].Name;
             Shop1Label.Text = game.Shops[0].ToString();
+            Shop2Button.Visible = true;
             if (game.Shops.Count > 1)
             {
                 Shop2Button.Text = game.Shops[1].Name;
                 Shop2Label.Text = game.Shops[1].ToString();
+                Shop3Button.Visible = true;
             }
             if (game.Shops.Count > 2)
             {
                 Shop3Button.Text = game.Shops[2].Name;
                 Shop3Label.Text = game.Shops[2].ToString();
+                Shop4Button.Visible = true;
             }
             if (game.Shops.Count > 3)
             {
@@ -145,6 +176,88 @@ namespace ShopsMinigame
             catch(Exception ex)
             {
                 ExceptionLabel.Text = ex.Message;
+            }
+        }
+
+        private void Shop2Button_Click(object sender, EventArgs e)
+        {
+            if (game.Shops.Count == 1)
+            {
+                try
+                {
+                    if (InputTextbox.TextLength == 0)
+                        throw new Exception("Shop must have a name!");
+                    game.LastUpdated = DateTime.Now;
+                    game.AddShop(InputTextbox.Text);
+                    Shop2Label.Text = game.Shops[1].ToString();
+                    Shop2Button.Text = game.Shops[1].Name;
+                    Shop2Label.Visible = true;
+                    Shop3Button.Visible = true;
+                    Shop3Label.Text = 10000.ToString();
+                }
+                catch(Exception ex)
+                {
+                    ExceptionLabel.Text = ex.Message;
+                }
+            }
+            else
+            {
+                game.SelectedShop = 1;
+                UpdateButtons();
+            }
+        }
+
+        private void Shop3Button_Click(object sender, EventArgs e)
+        {
+            if (game.Shops.Count == 2)
+            {
+                try
+                {
+                    if (InputTextbox.TextLength == 0)
+                        throw new Exception("Shop must have a name!");
+                    game.LastUpdated = DateTime.Now;
+                    game.AddShop(InputTextbox.Text);
+                    Shop3Label.Text = game.Shops[2].ToString();
+                    Shop3Button.Text = game.Shops[2].Name;
+                    Shop3Label.Visible = true;
+                    Shop4Button.Visible = true;
+                    Shop4Label.Text = 20000.ToString();
+                }
+                catch(Exception ex)
+                {
+                    ExceptionLabel.Text = ex.Message;
+                }
+            }
+            else
+            {
+                game.SelectedShop = 2;
+                UpdateButtons();
+            }
+        }
+
+        private void Shop4Button_Click(object sender, EventArgs e)
+        {
+            if (game.Shops.Count == 3)
+            {
+                try
+                {
+                    if (InputTextbox.TextLength == 0)
+                        throw new Exception("Shop must have a name!");
+                    game.LastUpdated = DateTime.Now;
+                    game.AddShop(InputTextbox.Text);
+                    Shop4Label.Text = game.Shops[3].ToString();
+                    Shop4Button.Text = game.Shops[3].Name;
+                    Shop4Label.Visible = true;
+                }
+                catch (Exception ex)
+                {
+                    ExceptionLabel.Text = ex.Message;
+                }
+            }
+            else
+            {
+                game.SelectedShop = 3;
+                UpdateButtons();
             }
         }
     }

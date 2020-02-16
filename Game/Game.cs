@@ -18,14 +18,17 @@ namespace Game
 
         public Game()
         {
-            Money = 600;
-            ID = 1;
+            Money = 0;
+            ID = GetNewId(false);
         }
 
-        public void AddShop()
+        public void AddShop(string name)
         {
-            var newid = GetNewId();
-            Shops.Add(new Shop("TestShop", newid, ID));
+            var cost = CalculateNewShopCost();
+            if (_money < cost)
+                throw new Exception("Not enough money.");
+            var newid = GetNewId(true);
+            Shops.Add(new Shop(name, newid, ID));
             CalculateMoneyPerSecond();
         }
 
@@ -53,6 +56,7 @@ namespace Game
             ConvertDTLToGame(dtlGame);
             CalculateMoney();
             SelectedShop = 0;
+            LastUpdated = DateTime.Now;
         }
 
         public void EnhanceShop()
@@ -143,10 +147,22 @@ namespace Game
                 Money += value;
         }
 
-        private int GetNewId()
+        private int GetNewId(bool shop)
         {
             var dal = new DAL.DAL();
-            return dal.GetLastShopId() + 1;
+            return dal.GetLastShopId(shop) + 1;
+        }
+
+        private int CalculateNewShopCost()
+        {
+            switch(Shops.Count())
+            {
+                case 0: return 0;
+                case 1: return 5000;
+                case 2: return 10000;
+                case 3: return 20000;
+                default: throw new Exception("Not possible anymore.");
+            }
         }
     }
 }

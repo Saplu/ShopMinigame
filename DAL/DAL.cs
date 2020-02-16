@@ -79,15 +79,20 @@ namespace DAL
             return game;
         }
 
-        public int GetLastShopId()
+        public int GetLastShopId(bool shop)
         {
             var value = 1;
             _cnn.Open();
-            _command.CommandText = "SELECT MAX(Id) FROM shops";
+            if (shop == true)
+                _command.CommandText = "SELECT Id FROM shops";
+            else _command.CommandText = "SELECT Id FROM Games";
             try
             {
                 _reader = _command.ExecuteReader();
-                value = _reader.GetInt32(0);
+                while (_reader.Read())
+                {
+                    value = _reader.GetInt32(0);
+                }
             }
             catch (Exception) { }
             _command.Dispose();
