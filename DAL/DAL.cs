@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace DAL
 {
@@ -27,11 +28,15 @@ namespace DAL
         public void Save(DTL.DTLGame game)
         {
             _cnn.Open();
-            _command.CommandText = "IF EXISTS (SELECT * FROM Games WHERE Id = '" + game.Id + "')" + 
+            _command.Parameters.Add("@ID", SqlDbType.Int);
+            _command.Parameters["@ID"].Value = game.Id;
+            _command.Parameters.Add("@MONEY", SqlDbType.Int);
+            _command.Parameters["@MONEY"].Value = game.Money;
+            _command.CommandText = "IF EXISTS (SELECT * FROM Games WHERE Id = @ID)" + 
                                    "UPDATE Games SET Timesaved = (SELECT GETDATE())" +
-                                   ", Money = '" + game.Money + "' WHERE Id = '" + game.Id + "'" +
+                                   ", Money = @MONEY WHERE Id = @ID " +
                                    "ELSE INSERT INTO Games (Id, Timesaved, Money) " +
-                                   "VALUES ('" + game.Id + "',(SELECT GETDATE()),'" + game.Money + "');";
+                                   "VALUES (@ID,(SELECT GETDATE()),@MONEY);";
             _adapter.UpdateCommand = _command;
             int success = _adapter.UpdateCommand.ExecuteNonQuery();
             _command.CommandText = AddShopsToSQLCommand(game.DTLShops);
@@ -45,11 +50,13 @@ namespace DAL
             _cnn.Open();
             var list = new List<DTL.DTLShop>();
             var game = new DTL.DTLGame();
+            _command.Parameters.Add("@ID", SqlDbType.Int);
+            _command.Parameters["@ID"].Value = gameid;
             _command.CommandText = "SELECT g.Id, g.Timesaved, g.Money, s.id, s.Upgradelvl, s.Income, s.Upgradecost," +
-                                   "s.Renovatecost, s.Millisecondsuntilready, s.Name, s.Baselvl, s.Beingrenovated" +
-                                   " FROM Games g, Shops s " +
-                                   "WHERE s.Gameid = '" + gameid +"'" +
-                                   " AND g.Id = '" + gameid +"'";
+                       "s.Renovatecost, s.Millisecondsuntilready, s.Name, s.Baselvl, s.Beingrenovated" +
+                       " FROM Games g, Shops s " +
+                       "WHERE s.Gameid = @ID" +
+                       " AND g.Id = @ID";
             _reader = _command.ExecuteReader();
 
             while(_reader.Read())
@@ -103,17 +110,18 @@ namespace DAL
         private string AddShopsToSQLCommand(List<DTL.DTLShop> shops)
         {
             var sb = new StringBuilder();
-
-            foreach(var shop in shops)
+            _command.Parameters.Add("@NAME", SqlDbType.Text);
+            foreach (var shop in shops)
             {
+                _command.Parameters["@NAME"].Value = shop.Name;
                 sb.Append(String.Format("IF EXISTS (SELECT * FROM shops WHERE Id ='{0}')" +
                     "UPDATE shops SET Upgradelvl ='{1}', Income = '{2}', Upgradecost = '{3}', " +
                     "Renovatecost = '{4}', Millisecondsuntilready = '{5}', Baselvl = '{6}', Beingrenovated = '{7}'" +
                     "ELSE INSERT INTO shops (Id, Gameid, Upgradelvl, Income, Upgradecost, Renovatecost, " +
                     "Millisecondsuntilready, Name, Baselvl, Beingrenovated) " +
-                    "VALUES ({0}, {8}, {1}, {2}, {3}, {4}, {5}, '{9}', {6}, {7});",
+                    "VALUES ({0}, {8}, {1}, {2}, {3}, {4}, {5}, @NAME, {6}, {7});",
                     shop.Id, shop.UpgradeLevel, shop.IncomePerMinute, shop.CostToUpgrade, shop.CostToRenovate,
-                    shop.MillisecondsUntilReady, shop.BaseLevel, shop.BeingRenovated, shop.GameId, shop.Name));
+                    shop.MillisecondsUntilReady, shop.BaseLevel, shop.BeingRenovated, shop.GameId));
             }
 
             return sb.ToString();
