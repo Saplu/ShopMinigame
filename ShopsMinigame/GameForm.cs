@@ -277,16 +277,12 @@ namespace ShopsMinigame
 
         private void CheckDoableUpdates()
         {
-            if (game.Shops[game.SelectedShop].BeingRenovated == true)
-            {
-                RenovateButton.Enabled = false;
+            if (game.Shops[game.SelectedShop].UpgradeLevel > 4 || game.Shops[game.SelectedShop].BeingRenovated == true)
                 EnhanceButton.Enabled = false;
-            }
-            else
-            {
-                RenovateButton.Enabled = true;
-                EnhanceButton.Enabled = true;
-            }
+            else EnhanceButton.Enabled = true;
+            if (game.Shops[game.SelectedShop].BaseLevel == ShopLevel.MegaMarket || game.Shops[game.SelectedShop].BeingRenovated == true)
+                RenovateButton.Enabled = false;
+            else RenovateButton.Enabled = true;
         }
     }
 }

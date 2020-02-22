@@ -63,6 +63,8 @@ namespace Game
 
         public void EnhanceShop()
         {
+            if (Shops[SelectedShop].UpgradeLevel > 4)
+                throw new Exception("Not possible to upgrade anymore.");
             if (_money >= Shops[SelectedShop].CostToUpgrade)
             {
                 _money -= Shops[SelectedShop].CostToUpgrade;
@@ -74,6 +76,8 @@ namespace Game
 
         public void UpgradeShop()
         {
+            if (Shops[SelectedShop].BaseLevel == ShopLevel.MegaMarket)
+                throw new Exception("Not possible to upgrade anymore.");
             if (_money >= Shops[SelectedShop].CostToRenovate)
             {
                 _money -= Shops[SelectedShop].CostToRenovate;
