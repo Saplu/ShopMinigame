@@ -36,11 +36,13 @@ namespace ShopsMinigame
                     Shop1Label.Visible = true;
                     Shop2Button.Visible = true;
                     Shop2Label.Text = 5000.ToString();
+                    InputTextbox.Text = "";
                 }
                 else
                 {
                     game.SelectedShop = 0;
                     UpdateButtons();
+                    CheckDoableUpdates();
                 }
             }
             catch(Exception ex)
@@ -82,6 +84,7 @@ namespace ShopsMinigame
             {
                 game.EnhanceShop();
                 UpdateLabels();
+                CheckDoableUpdates();
                 RefreshButton_Click(sender, e);
             }
             catch(Exception ex)
@@ -144,6 +147,7 @@ namespace ShopsMinigame
         {
             Shop1Button.Text = game.Shops[0].Name;
             Shop1Label.Text = game.Shops[0].ToString();
+            Shop1Label.Visible = true;
             Shop2Button.Visible = true;
             if (game.Shops.Count > 1)
             {
@@ -160,7 +164,7 @@ namespace ShopsMinigame
             if (game.Shops.Count > 3)
             {
                 Shop4Button.Text = game.Shops[3].Name;
-                Shop4Label.Text = game.Shops[4].ToString();
+                Shop4Label.Text = game.Shops[3].ToString();
             }
 
         }
@@ -171,6 +175,7 @@ namespace ShopsMinigame
             {
                 game.UpgradeShop();
                 UpdateLabels();
+                CheckDoableUpdates();
                 RefreshButton_Click(sender, e);
             }
             catch(Exception ex)
@@ -194,6 +199,8 @@ namespace ShopsMinigame
                     Shop2Label.Visible = true;
                     Shop3Button.Visible = true;
                     Shop3Label.Text = 10000.ToString();
+                    UpdateLabels();
+                    InputTextbox.Text = "";
                 }
                 catch(Exception ex)
                 {
@@ -204,6 +211,7 @@ namespace ShopsMinigame
             {
                 game.SelectedShop = 1;
                 UpdateButtons();
+                CheckDoableUpdates();
             }
         }
 
@@ -222,6 +230,8 @@ namespace ShopsMinigame
                     Shop3Label.Visible = true;
                     Shop4Button.Visible = true;
                     Shop4Label.Text = 20000.ToString();
+                    UpdateLabels();
+                    InputTextbox.Text = "";
                 }
                 catch(Exception ex)
                 {
@@ -232,6 +242,7 @@ namespace ShopsMinigame
             {
                 game.SelectedShop = 2;
                 UpdateButtons();
+                CheckDoableUpdates();
             }
         }
 
@@ -248,6 +259,8 @@ namespace ShopsMinigame
                     Shop4Label.Text = game.Shops[3].ToString();
                     Shop4Button.Text = game.Shops[3].Name;
                     Shop4Label.Visible = true;
+                    UpdateLabels();
+                    InputTextbox.Text = "";
                 }
                 catch (Exception ex)
                 {
@@ -258,6 +271,21 @@ namespace ShopsMinigame
             {
                 game.SelectedShop = 3;
                 UpdateButtons();
+                CheckDoableUpdates();
+            }
+        }
+
+        private void CheckDoableUpdates()
+        {
+            if (game.Shops[game.SelectedShop].BeingRenovated == true)
+            {
+                RenovateButton.Enabled = false;
+                EnhanceButton.Enabled = false;
+            }
+            else
+            {
+                RenovateButton.Enabled = true;
+                EnhanceButton.Enabled = true;
             }
         }
     }

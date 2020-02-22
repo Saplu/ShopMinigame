@@ -39,8 +39,14 @@ namespace DAL
                                    "VALUES (@ID,(SELECT GETDATE()),@MONEY);";
             _adapter.UpdateCommand = _command;
             int success = _adapter.UpdateCommand.ExecuteNonQuery();
+            //_command.Parameters.Add("@NAME", SqlDbType.Text);
+            //foreach(var shop in game.DTLShops)
+            //{
+            //    _command.CommandText = AddShopToSQLCommand(shop);
+            //    success = _adapter.UpdateCommand.ExecuteNonQuery();
+            //}
             _command.CommandText = AddShopsToSQLCommand(game.DTLShops);
-            _adapter.UpdateCommand.ExecuteNonQuery();
+            success = _adapter.UpdateCommand.ExecuteNonQuery();
             _command.Dispose();
             _cnn.Close();
         }
@@ -114,9 +120,10 @@ namespace DAL
             foreach (var shop in shops)
             {
                 _command.Parameters["@NAME"].Value = shop.Name;
-                sb.Append(String.Format("IF EXISTS (SELECT * FROM shops WHERE Id ='{0}')" +
-                    "UPDATE shops SET Upgradelvl ='{1}', Income = '{2}', Upgradecost = '{3}', " +
-                    "Renovatecost = '{4}', Millisecondsuntilready = '{5}', Baselvl = '{6}', Beingrenovated = '{7}'" +
+                sb.Append(String.Format("IF EXISTS (SELECT * FROM shops WHERE Id ={0})" +
+                    "UPDATE shops SET Upgradelvl ={1}, Income = {2}, Upgradecost = {3}, " +
+                    "Renovatecost = {4}, Millisecondsuntilready = {5}, Baselvl = {6}, Beingrenovated = {7} " +
+                    "WHERE Id ={0} " +
                     "ELSE INSERT INTO shops (Id, Gameid, Upgradelvl, Income, Upgradecost, Renovatecost, " +
                     "Millisecondsuntilready, Name, Baselvl, Beingrenovated) " +
                     "VALUES ({0}, {8}, {1}, {2}, {3}, {4}, {5}, @NAME, {6}, {7});",
@@ -125,6 +132,20 @@ namespace DAL
             }
 
             return sb.ToString();
+        }
+
+        private string AddShopToSQLCommand(DTL.DTLShop shop)
+        {
+            _command.Parameters["@NAME"].Value = shop.Name;
+            return String.Format("IF EXISTS (SELECT * FROM shops WHERE Id ={0})" +
+                    "UPDATE shops SET Upgradelvl ={1}, Income = {2}, Upgradecost = {3}, " +
+                    "Renovatecost = {4}, Millisecondsuntilready = {5}, Baselvl = {6}, Beingrenovated = {7} " +
+                    "WHERE Id ={0} " +
+                    "ELSE INSERT INTO shops (Id, Gameid, Upgradelvl, Income, Upgradecost, Renovatecost, " +
+                    "Millisecondsuntilready, Name, Baselvl, Beingrenovated) " +
+                    "VALUES ({0}, {8}, {1}, {2}, {3}, {4}, {5}, @NAME, {6}, {7});",
+                    shop.Id, shop.UpgradeLevel, shop.IncomePerMinute, shop.CostToUpgrade, shop.CostToRenovate,
+                    shop.MillisecondsUntilReady, shop.BaseLevel, shop.BeingRenovated, shop.GameId);
         }
     }
 }

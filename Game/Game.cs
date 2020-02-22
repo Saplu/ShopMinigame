@@ -27,9 +27,11 @@ namespace Game
             var cost = CalculateNewShopCost();
             if (_money < cost)
                 throw new Exception("Not enough money.");
+            _money -= cost;
             var newid = GetNewId(true);
             Shops.Add(new Shop(name, newid, ID));
             CalculateMoneyPerSecond();
+            Save();
         }
 
         public void Update(DateTime time)
